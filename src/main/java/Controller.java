@@ -9,12 +9,12 @@ public class Controller {
         setPort(Integer.parseInt(System.getenv("PORT")));
 
         get("/status", (request, response) -> {
-//            response.header("Content-type", "application/json");
             response.type("application/json");
             return new StatusResponse(42);
         }, new JsonTransformer());
 
-        get("/pubs", (request, response) -> {
+        get("/pub/latitude/:lat/longitude/:long", (request, response) -> {
+            response.type("application/json");
             double latitude = 53.0;
             double longitude = -2;
             double radius = 5000;
@@ -22,10 +22,11 @@ public class Controller {
             Optional<InterestingPlace> place = mapsDao.getMostInterestingPlace(latitude, longitude, radius, type);
 
             if (place.isPresent()) {
-                return "yay";
+                return place;
             }
             else {
-                return "nay";
+                response.status(204);
+                return "";
             }
         }, new JsonTransformer());
 
