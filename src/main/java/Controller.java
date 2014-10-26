@@ -9,6 +9,8 @@ public class Controller {
         setPort(Integer.parseInt(System.getenv("PORT")));
 
         get("/status", (request, response) -> {
+//            response.header("Content-type", "application/json");
+            response.type("application/json");
             return new StatusResponse(42);
         }, new JsonTransformer());
 
