@@ -43,7 +43,8 @@ public class GoogleMapsDao {
 
         if (mapsResponse != null && !mapsResponse.results.isEmpty()) {
             MapsResult mapsResult = mapsResponse.results.get(0);
-            InterestingPlace place = new InterestingPlace(mapsResult.name, mapsResult.geometry.location.lat, mapsResult.geometry.location.lng);
+            InterestingPlace place = new InterestingPlace(
+                    mapsResult.name, mapsResult.geometry.location.lat, mapsResult.geometry.location.lng, mapsResult.vicinity);
             return Optional.of(place);
         }
 

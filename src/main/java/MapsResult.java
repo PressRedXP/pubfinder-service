@@ -4,4 +4,5 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 public class MapsResult {
     public String name;
     public Geometry geometry;
+    public String vicinity;
 }
