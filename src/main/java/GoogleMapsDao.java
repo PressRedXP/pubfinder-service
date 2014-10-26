@@ -23,10 +23,9 @@ public class GoogleMapsDao {
 
     public Optional<InterestingPlace> getMostInterestingPlace(double latitude, double longitude, double radius, String type) {
         String urlString = String.format(
-                "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=%f,%f&radius=%f&types=%s&rankby=prominence&key=%s",
+                "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=%f,%f&types=%s&rankby=distance&key=%s",
                 latitude,
                 longitude,
-                radius,
                 type,
                 apiKey
         );
