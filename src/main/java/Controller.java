@@ -12,13 +12,6 @@ public class Controller {
             return 42;
         });
 
-        /*
-        get("/people/:id/contacts", "application/json", (request, response) -> {
-            response.header("Access-Control-Allow-Origin", "*");
-            return contactsService.getContactsFor(request.params(":id"));
-        }, new JsonTransformer());
-        */
-
         get("/pubs", (request, response) -> {
             double latitude = 53.0;
             double longitude = -2;

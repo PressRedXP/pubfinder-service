@@ -30,14 +30,10 @@ public class GoogleMapsDao {
                 type,
                 apiKey
         );
-        System.out.println(urlString);
-
         GoogleMapsResponse mapsResponse = null;
 
         try {
             mapsResponse = restTemplate.getForObject(urlString, GoogleMapsResponse.class);
-            System.out.println(mapsResponse.next_page_token);
-            System.out.println(mapsResponse.results.size());
         }
         catch (Exception e) {
             System.out.println(e.getMessage());
