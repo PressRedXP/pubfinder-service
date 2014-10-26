@@ -9,8 +9,8 @@ public class Controller {
         setPort(Integer.parseInt(System.getenv("PORT")));
 
         get("/status", (request, response) -> {
-            return 42;
-        });
+            return new StatusResponse(42);
+        }, new JsonTransformer());
 
         get("/pubs", (request, response) -> {
             double latitude = 53.0;
