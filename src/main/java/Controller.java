@@ -15,8 +15,10 @@ public class Controller {
 
         get("/pub/latitude/:lat/longitude/:long", (request, response) -> {
             response.type("application/json");
-            double latitude = 53.0;
-            double longitude = -2;
+//            double latitude = 53.0;
+//            double longitude = -2;
+            double latitude = Double.parseDouble(request.params(":lat"));
+            double longitude = Double.parseDouble(request.params(":long"));
             double radius = 5000;
             String type = "bar";
             Optional<InterestingPlace> place = mapsDao.getMostInterestingPlace(latitude, longitude, radius, type);
