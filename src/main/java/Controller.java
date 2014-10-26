@@ -22,7 +22,7 @@ public class Controller {
             Optional<InterestingPlace> place = mapsDao.getMostInterestingPlace(latitude, longitude, radius, type);
 
             if (place.isPresent()) {
-                return place;
+                return place.get();
             }
             else {
                 response.status(204);
