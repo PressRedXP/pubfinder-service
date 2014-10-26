@@ -1,5 +1,7 @@
 import static spark.Spark.*;
 
+import java.util.Optional;
+
 public class Controller {
     private static GoogleMapsDao mapsDao = new GoogleMapsDao("AIzaSyB-s4fUCHKpcAWPfyp-fT-2WuykrWs55qo");
 
@@ -7,16 +9,30 @@ public class Controller {
         setPort(Integer.parseInt(System.getenv("PORT")));
 
         get("/status", (request, response) -> {
-            return 0;
+            return 42;
         });
+
+        /*
+        get("/people/:id/contacts", "application/json", (request, response) -> {
+            response.header("Access-Control-Allow-Origin", "*");
+            return contactsService.getContactsFor(request.params(":id"));
+        }, new JsonTransformer());
+        */
 
         get("/pubs", (request, response) -> {
             double latitude = 53.0;
             double longitude = -2;
             double radius = 5000;
             String type = "bar";
-            return mapsDao.getPlacesNearby(latitude, longitude, radius, type);
-        });
+            Optional<InterestingPlace> place = mapsDao.getMostInterestingPlace(latitude, longitude, radius, type);
+
+            if (place.isPresent()) {
+                return "yay";
+            }
+            else {
+                return "nay";
+            }
+        }, new JsonTransformer());
 
     }
 }

@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJacksonHttpMessageConverter;
@@ -20,7 +21,7 @@ public class GoogleMapsDao {
         restTemplate.setMessageConverters(messageConverters);
     }
 
-    public String getPlacesNearby(double latitude, double longitude, double radius, String type) {
+    public Optional<InterestingPlace> getMostInterestingPlace(double latitude, double longitude, double radius, String type) {
         String urlString = String.format(
                 "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=%f,%f&radius=%f&types=%s&rankby=prominence&key=%s",
                 latitude,
@@ -31,18 +32,25 @@ public class GoogleMapsDao {
         );
         System.out.println(urlString);
 
-//        try {
-            GoogleMapsResponse mapsResponse = restTemplate.getForObject(urlString, GoogleMapsResponse.class);
+        GoogleMapsResponse mapsResponse = null;
+
+        try {
+            mapsResponse = restTemplate.getForObject(urlString, GoogleMapsResponse.class);
             System.out.println(mapsResponse.next_page_token);
-//        }
-//        catch (Exception e) {
-//            System.out.println(e.getMessage());
-//            System.out.println(e.getCause());
-//            System.out.println(e.getStackTrace().toString());
-//        }
+            System.out.println(mapsResponse.results.size());
+        }
+        catch (Exception e) {
+            System.out.println(e.getMessage());
+            System.out.println(e.getCause());
+            System.out.println(e.getStackTrace().toString());
+        }
 
-        System.out.println("End of getPlacesNearby()");
+        if (mapsResponse != null && !mapsResponse.results.isEmpty()) {
+            MapsResult mapsResult = mapsResponse.results.get(0);
+            InterestingPlace place = new InterestingPlace(mapsResult.name, mapsResult.geometry.location.lat, mapsResult.geometry.location.lng);
+            return Optional.of(place);
+        }
 
-        return mapsResponse.next_page_token;
+        return Optional.empty();
     }
 }
